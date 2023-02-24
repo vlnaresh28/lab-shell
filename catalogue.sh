@@ -32,8 +32,8 @@ print_head "Downloading .zip files"
 curl -L -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip&>>${log_file}
 status_check $?
 
-cd /app&>>${log_file}
-status_check $?
+
+
 
 print_head "unziping the catalogue.zip "
 unzip /tmp/catalogue.zip&>>${log_file}
@@ -64,7 +64,7 @@ systemctl start catalogue&>>${log_file}
 status_check $?
 
 print_head " copy the monogodb.repo file "
-cp configs/mongodb.repo  /etc/yum.repos.d/mongo.repo &>>${log_file}
+cp ${code_dir}/mongodb.repo  /etc/yum.repos.d/mongo.repo &>>${log_file}
 status_check $?
 
 print_head "Installaling Mongodb Client "

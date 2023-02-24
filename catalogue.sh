@@ -17,18 +17,12 @@ print_head "Create Roboshop User"
     useradd roboshop &>>${log_file}
   fi
 
-
-print_head "creating Application Directory"
-  id roboshop  &>>${log_file}
-  if [ $? -ne 0 ]; then
-    useradd roboshop &>>${log_file}
+print_head "Create Application Directory"
+  if [ ! -d /app ]; then
+    mkdir /app &>>${log_file}
   fi
+  status_check $?
 
-
-
-
-mkdir /app &>>${log_file}
-status_check $?
 
 print_head "Removing old content "
 rm -rf /app/*&>>${log_file}

@@ -71,8 +71,11 @@ status_check $?
 
 print_head "Installaling Mongodb Client "
 yum install mongodb-org-shell -y &>>${log_file}
-status_check $
+status_check $?
 
 print_head "loading Mongodb Schema "
 mongo --host mongodb.learndevopseasy.online </app/schema/catalogue.js &>>${log_file}
 status_check $?
+
+
+

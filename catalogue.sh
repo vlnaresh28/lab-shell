@@ -18,6 +18,15 @@ print_head "Create Roboshop User"
   fi
 
 
+print_head "creating Application Directory"
+  id roboshop  &>>${log_file}
+  if [ $? -ne 0 ]; then
+    useradd roboshop &>>${log_file}
+  fi
+
+
+
+
 mkdir /app &>>${log_file}
 status_check $?
 

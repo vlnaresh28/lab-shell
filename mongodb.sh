@@ -19,7 +19,7 @@ status_check() {
 
 
 print_head "Copying Repo file to repos.d/mongodb "
-cp configs/mongodb.repo  /etc/yum.repos.d/mongodb &>>${log_file}
+cp ${code_dir}/configs/mongodb.repo  /etc/yum.repos.d/mongodb &>>${log_file}
 status_check $?
   
 print_head "Installaling MongoDB "

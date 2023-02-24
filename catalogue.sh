@@ -34,6 +34,9 @@ curl -L -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalo
 status_check $?
 
 
+cd /app &>>${log_file}
+
+
 print_head "unziping the catalogue.zip "
 unzip /tmp/catalogue.zip &>>${log_file}
 status_check $?

@@ -6,7 +6,7 @@ DOMAIN="learndevopseasy.online"
 SG_NAME="allow-all"
 #############################
 
-log_file=/tmp/lab.log
+
 
 create_ec2() {
   PRIVATE_IP=$(aws ec2 run-instances \
@@ -31,13 +31,13 @@ create_ec2() {
 ## Main Program
 AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-8-DevOps-Practice" | jq '.Images[].ImageId' | sed -e 's/"//g')
 if [ -z "${AMI_ID}" ]; then
-  echo "AMI_ID not found"   &>>${log_file}
+  echo "AMI_ID not found"
   exit 1
 fi
 
 SGID=$(aws ec2 describe-security-groups --filters Name=group-name,Values=${SG_NAME} | jq  '.SecurityGroups[].GroupId' | sed -e 's/"//g')
 if [ -z "${SGID}" ]; then
-  echo "Given Security Group does not exit"  &>>${log_file}
+  echo "Given Security Group does not exit"
   exit 1
 fi
 
@@ -46,4 +46,3 @@ for component in catalogue cart user shipping payment frontend mongodb mysql rab
   COMPONENT="${component}"
   create_ec2
 done
-&>>${log_file}

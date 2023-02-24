@@ -17,8 +17,29 @@ status_check() {
 }
 
 
+
+schema_setup () {
+
+if [ "${schema_type}" == "mongo" ] ; then
+
+  print_head " copy the monogodb.repo file "
+  cp ${code_dir}/configs/mongodb.repo  /etc/yum.repos.d/mongo.repo &>>${log_file}
+  status_check $?
+
+  print_head "Installaling Mongodb Client "
+  yum install mongodb-org-shell -y &>>${log_file}
+  status_check $?
+
+  print_head "loading Mongodb Schema "
+  mongo --host mongodb.learndevopseasy.online </app/schema/${component}.js &>>${log_file}
+  status_check $?
+
+fi
+
+}
+
+
 nodejs (){
-  
   
 print_head "Configure Nodejs repo "
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log_file}
@@ -27,9 +48,6 @@ status_check $?
 print_head "Installaling Nodejs "
 yum install nodejs -y &>>${log_file}
 status_check $?
-
-
-
 
 print_head "Create Roboshop user"
   id roboshop  &>>${log_file}
@@ -53,9 +71,7 @@ print_head "Downloading .zip files"
 curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${log_file}
 status_check $?
 
-
 cd /app &>>${log_file}
-
 
 print_head "unziping the ${component}.zip "
 unzip /tmp/${component}.zip &>>${log_file}
@@ -85,16 +101,4 @@ print_head " Start ${component} service "
 systemctl start ${component} &>>${log_file}
 status_check $?
 
-print_head " copy the monogodb.repo file "
-cp ${code_dir}/configs/mongodb.repo  /etc/yum.repos.d/mongo.repo &>>${log_file}
-status_check $?
-
-print_head "Installaling Mongodb Client "
-yum install mongodb-org-shell -y &>>${log_file}
-status_check $?
-
-print_head "loading Mongodb Schema "
-mongo --host mongodb.learndevopseasy.online </app/schema/${component}.js &>>${log_file}
-status_check $?
-  
 }

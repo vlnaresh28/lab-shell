@@ -1,13 +1,40 @@
-yum install nginx -y 
-rm -rf /usr/share/nginx/html/* 
-curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend.zip 
-cd /usr/share/nginx/html 
-unzip /tmp/frontend.zip
-
-cp configs/nginx-roboshop.config  /etc/ngninx/defualt.d/roboshop.conf
+code_dir=$(pwd)
+log_file=/tmp/roboshop.log
+rm -f ${log_file}
 
 
-systemctl enable nginx 
-systemctl restart nginx 
 
+print_head "Installaling Nginx "
+yum install nginx -y &>>${log_file}
+status_check $?
+ 
 
+print_head  "Removing Old Content"
+rm -rf /usr/share/nginx/html/*  &>>${log_file}
+status_check $?
+ 
+
+print_head "Downloading Frontend Content"
+curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend.zip  &>>${log_file}
+status_check $?
+ 
+
+print_head "Extracting Downloaded Frontend"
+cd /usr/share/nginx/html
+unzip /tmp/frontend.zip &>>${log_file} 
+status_check $?
+ 
+
+print_head "Copying Nginx Config for RoboShop "
+cp ${code_dir}/configs/nginx-roboshop.conf /etc/nginx/default.d/roboshop.conf  &>>${log_file}
+status_check $?
+ 
+
+print_head "Enabling nginx  "
+systemctl enable nginx &>>${log_file}
+status_check $?
+ 
+
+print_head "reStarting nginx "
+systemctl restart nginx  &>>${log_file}
+status_check $?

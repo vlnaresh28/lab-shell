@@ -1,5 +1,5 @@
 source common.sh
 
-component = user
+component=user
 
 nodejs

@@ -1,6 +1,5 @@
 source common.sh
 
-component=user
+component=catalogue
 schema_type="mongo"
-
 nodejs

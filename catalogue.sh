@@ -16,7 +16,8 @@ print_head "Create Roboshop User"
   if [ $? -ne 0 ]; then
     useradd roboshop &>>${log_file}
   fi
-
+  status_check $? 
+  
 print_head "Create Application Directory"
   if [ ! -d /app ]; then
     mkdir /app &>>${log_file}
@@ -64,7 +65,7 @@ systemctl start catalogue&>>${log_file}
 status_check $?
 
 print_head " copy the monogodb.repo file "
-cp ${code_dir}/mongodb.repo  /etc/yum.repos.d/mongo.repo &>>${log_file}
+cp ${code_dir}/configs/mongodb.repo  /etc/yum.repos.d/mongo.repo &>>${log_file}
 status_check $?
 
 print_head "Installaling Mongodb Client "

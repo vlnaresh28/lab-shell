@@ -26,22 +26,20 @@ print_head "Create Application Directory"
 
 
 print_head "Removing old content "
-rm -rf /app/*&>>${log_file}
+rm -rf /app/* &>>${log_file}
 status_check $?
 
 print_head "Downloading .zip files"
-curl -L -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip&>>${log_file}
+curl -L -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>${log_file}
 status_check $?
-
-
 
 
 print_head "unziping the catalogue.zip "
-unzip /tmp/catalogue.zip&>>${log_file}
+unzip /tmp/catalogue.zip &>>${log_file}
 status_check $?
 
 print_head "moving to Application Directory "
-cd /app&>>${log_file}
+cd /app &>>${log_file}
 status_check $?
 
 print_head "Installaling NPM "
@@ -49,11 +47,11 @@ npm install &>>${log_file}
 status_check $?
 
 print_head "Copy Catalogue service file "
-cp configs/catalogue.service  /etc/systemd/system/catalogue.service &>>${log_file}
+cp ${code_dir}/configs/catalogue.service  /etc/systemd/system/catalogue.service &>>${log_file}
 status_check $?
 
 print_head "Reloading Demon tool "
-systemctl daemon-reload&>>${log_file}
+systemctl daemon-reload &>>${log_file}
 status_check $?
 
 print_head "Enabling Catalogue service "
@@ -61,7 +59,7 @@ systemctl enable catalogue &>>${log_file}
 status_check $?
 
 print_head " Start Catalogue service "
-systemctl start catalogue&>>${log_file}
+systemctl start catalogue &>>${log_file}
 status_check $?
 
 print_head " copy the monogodb.repo file "

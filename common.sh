@@ -103,4 +103,26 @@ status_check $?
 
 schema_setup
 
+systemd_setup
+
+}
+
+java() {
+
+  print_head "Install Maven"
+  yum install maven -y &>>${log_file}
+  status_check $?
+
+  app_prereq_setup
+
+  print_head "Download Dependencies & Package"
+  mvn clean package &>>${log_file}
+  mv target/${component}-1.0.jar ${component}.jar &>>${log_file}
+  status_check $?
+
+  # Schema Setup Function
+  schema_setup
+
+  # SystemD Function
+  systemd_setup
 }
